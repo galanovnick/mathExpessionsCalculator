@@ -6,14 +6,14 @@ import org.junit.Test;
 
 public class ErrorsTest {
 
-    MathExpressionsCalculator calculator = new MathExpressionsCalculatorImpl();
+    private final MathExpressionsCalculator calculator = new MathExpressionsCalculatorImpl();
 
     @Test(expected = CalculationException.class)
     public void testInvalidCharacter() throws CalculationException {
         calculator.evaluate("|");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = CalculationException.class)
     public void testEmptyString() throws CalculationException {
         calculator.evaluate(null);
     }

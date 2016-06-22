@@ -12,8 +12,16 @@ public class NumbersTest {
             = new MathExpressionsCalculatorImpl();
 
     @Test
-    public void testNumbers() throws CalculationException {
+    public void testNumber() throws CalculationException {
 
-        assertEquals("Number has been calculated incorrect.", 2, calculator.evaluate("2"), 0.0001);
+        assertEquals("Positive number has been calculated incorrect.", 2, calculator.evaluate("2"), 0.0001);
+        assertEquals("Negative number has been calculated incorrect.", -2, calculator.evaluate("-2"), 0.0001);
+    }
+
+    @Test
+    public void testFloatNumber() throws CalculationException {
+
+        assertEquals("Floating number has been calculated incorrect.", 1.234,
+                calculator.evaluate("1.234"), 0.0001);
     }
 }
