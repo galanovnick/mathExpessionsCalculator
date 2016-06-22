@@ -1,10 +1,12 @@
 package calculator.exception;
 
 /**
- * Signals that input string contains errors.
+ * Signals that input string contains unresolved symbol.
  */
 public class CalculationException extends Exception {
-
+    /**
+     * Unresolved symbol position.
+     */
     private final int errorPosition;
 
     public CalculationException(String message, int errorPosition) {
