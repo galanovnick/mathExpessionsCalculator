@@ -12,15 +12,21 @@ public class CloseBracketParser implements ExpressionParser {
 
     @Override
     public StackCommand parseExpression(InputContext inputContext, OutputContext outputContext) {
+
         if (!outputContext.getContextBean().isInFunction()) {
             return null;
         }
 
-        if (inputContext.getTokens()[inputContext.getParsingPointer()] == ')') {
-            inputContext.moveParsingPointer(1);
-            return () -> outputContext.popTopFunction();
+        char[] tokens = inputContext.getTokens();
+        int pointer = inputContext.getParsingPointer();
+
+        if (pointer >= tokens.length) {
+            return null;
+        } else if (tokens[pointer] != ')') {
+            return null;
         }
 
-        return null;
+        inputContext.moveParsingPointer(1);
+        return outputContext::popTopFunction;
     }
 }

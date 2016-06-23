@@ -17,10 +17,17 @@ public class ArgumentsSeparatorParser implements ExpressionParser {
      */
     @Override
     public StackCommand parseExpression(InputContext inputContext, OutputContext outputContext) {
-        if (inputContext.getTokens()[inputContext.getParsingPointer()] != ',') {
+
+        char[] tokens = inputContext.getTokens();
+        int pointer = inputContext.getParsingPointer();
+
+        if (pointer >= tokens.length) {
+            return null;
+        } else if (tokens[pointer] != ',') {
             return null;
         }
 
+        inputContext.moveParsingPointer(1);
         return () -> {};
     }
 }

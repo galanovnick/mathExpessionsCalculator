@@ -26,9 +26,6 @@ public class OutputMathExpressionContext implements OutputContext<Double>{
     }
 
     public Double getResult() {
-        while (mathExpressionBean.getParent() != null) {
-            popTopFunction();
-        }
         return mathExpressionBean.getResultValue();
     }
 

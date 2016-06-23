@@ -13,7 +13,7 @@ public class FunctionsTest {
     @Test
     public void testMinimumFunction() throws CalculationException {
         assertEquals("Min function have been calculated incorrect.",
-                7, calculator.evaluate("min(2,7,3)"), 0.0001);
+                2, calculator.evaluate("min(2,7,3)"), 0.0001);
     }
 
     @Test

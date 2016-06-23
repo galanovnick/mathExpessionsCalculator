@@ -19,6 +19,8 @@ public class FinishParser implements ExpressionParser {
     public StackCommand parseExpression(InputContext inputContext, OutputContext outputContext) {
         if (inputContext.getParsingPointer() < inputContext.getTokens().length) {
             return null;
+        } else if (outputContext.getContextBean().isInFunction()) {
+            return null;
         }
 
         return () -> {};
