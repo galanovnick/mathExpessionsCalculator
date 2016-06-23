@@ -11,7 +11,7 @@ public class FunctionsFactory {
      * @param token input string token
      * @return function
      */
-    public Function createOperator(String token) {
+    public Function createFunction(String token) {
         switch (token) {
             case "(": return args -> args[0];
             case "min(": return args -> {

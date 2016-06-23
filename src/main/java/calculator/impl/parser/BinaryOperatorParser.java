@@ -26,17 +26,27 @@ public class BinaryOperatorParser implements ExpressionParser {
         char[] tokens = inputContext.getTokens();
         int pointer = inputContext.getParsingPointer();
 
-        if (pointer < tokens.length) {
+        StringBuilder operator = new StringBuilder();
+        char operatorToken;
 
-            char operandToken = tokens[pointer];
+        while (pointer < tokens.length) {
 
-            BinaryOperator operator = binaryOperatorsFactory.createOperator(operandToken + "");
-
-            if (operator != null) {
-                inputContext.moveParsingPointer(1);
-                return () -> outputContext.pushBinaryOperator(operator);
+            operatorToken = tokens[pointer++];
+            if (VALID_OPERATOR_SYMBOLS.contains(operatorToken)) {
+                operator.append(operatorToken);
+            } else {
+                break;
             }
         }
+
+        BinaryOperator binaryOperator =
+                binaryOperatorsFactory.createOperator(operator.toString());
+
+        if (binaryOperator != null) {
+            inputContext.moveParsingPointer(1);
+            return () -> outputContext.pushBinaryOperator(binaryOperator);
+        }
+
         return null;
     }
 }
