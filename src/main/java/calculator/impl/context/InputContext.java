@@ -1,8 +1,7 @@
 package calculator.impl.context;
 
 /**
- *
- *
+ *  Container for input data.
  */
 public interface InputContext {
 

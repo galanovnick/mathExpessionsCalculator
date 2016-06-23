@@ -4,12 +4,15 @@ import calculator.exception.CalculationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Contains input data.
+ */
 public class InputMathExpressionContext implements InputContext {
 
     private final static Logger log = LoggerFactory.getLogger(InputMathExpressionContext.class);
 
     private final char[] inputTokens;
-
+    
     private int parsingPointer = 0;
 
     public InputMathExpressionContext(String tokens) throws CalculationException {

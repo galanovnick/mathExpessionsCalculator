@@ -14,6 +14,9 @@ public interface ExpressionParser {
 
     StackCommand parseExpression(InputContext inputContext, OutputContext outputContext);
 
+    /**
+     * List of valid operators symbols.
+     */
     List<Character> VALID_OPERATOR_SYMBOLS = new ArrayList<Character>(){{
         add('+');
         add('-');

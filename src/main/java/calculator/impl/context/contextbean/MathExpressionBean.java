@@ -7,19 +7,39 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.jar.Pack200;
 
+/**
+ * Contains output context data.
+ */
 public class MathExpressionBean implements OutputContextBean<Double> {
 
     private static final Logger log = LoggerFactory.getLogger(MathExpressionBean.class);
 
+    /**
+     * Operands stack.
+     */
     private Deque<Double> numbersStack = new ArrayDeque<>();
 
+    /**
+     * Operators stack.
+     */
     private Deque<BinaryOperator> operatorsStack = new ArrayDeque<>();
 
+    /**
+     * For brackets - empty function.
+     * Considered, that expression always wrapped in additional brackets.
+     */
     private Function function;
 
+    /**
+     * Link to parent bean. Null if no functions or brackets parsed.
+     */
     private MathExpressionBean parent;
 
+    /**
+     * Constructor for first bean.
+     */
     public MathExpressionBean() {
         if (log.isDebugEnabled()) {
             log.debug("Created bean from empty function.");
@@ -42,8 +62,13 @@ public class MathExpressionBean implements OutputContextBean<Double> {
     }
 
     public double getResultValue() {
+
         if (log.isDebugEnabled()) {
-            log.debug("Popping result...");
+            if (parent != null) {
+                log.debug("Popping function result...");
+            } else {
+                log.debug("Popping calculation result...");
+            }
         }
 
         while (!operatorsStack.isEmpty()) {
@@ -53,10 +78,18 @@ public class MathExpressionBean implements OutputContextBean<Double> {
         return function.execute(numbersStack.toArray(new Double[0]));
     }
 
-    public void pushOperand(Double operator) {
-        numbersStack.push(operator);
+    /**
+     * Add operand to stack.
+     * @param operand Operand to be pushed to this bean.
+     */
+    public void pushOperand(Double operand) {
+        numbersStack.push(operand);
     }
 
+    /**
+     * Add operator to stack. Calculates operators with higher priority.
+     * @param operator Operator to be pushed to this bean.
+     */
     public void pushOperator(BinaryOperator operator) {
         while (!operatorsStack.isEmpty() &&
                 (operatorsStack.peek().compareTo(operator) > 0)) {
@@ -65,6 +98,9 @@ public class MathExpressionBean implements OutputContextBean<Double> {
         operatorsStack.push(operator);
     }
 
+    /**
+     * Calculates top operator.
+     */
     private void popTopOperator() {
         double rightOperand = numbersStack.pop();
         double leftOperand = numbersStack.pop();

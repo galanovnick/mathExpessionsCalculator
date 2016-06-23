@@ -16,7 +16,7 @@ import java.util.Map;
  * Implementation of finite state machine for resolving character expressions.
  *
  * @param <ResolvingError> exception that signal about syntax errors
- * @param <State>
+ * @param <State> fsm state
  */
 public abstract class AbstractCharacterExpressionResolver
         <ResolvingError extends Exception, State extends Enum<State>> {
@@ -24,12 +24,16 @@ public abstract class AbstractCharacterExpressionResolver
     private final static Logger log = LoggerFactory.getLogger(AbstractCharacterExpressionResolver.class);
 
     /**
-     * Available transitions.
+     * Available transitions. Users have to register them using constructor.
+     * Key - state.
+     * Value - set that contains available transitions from this state.
      */
     private Map<State, EnumSet<State>> transitionMatrix;
 
     /**
-     * Contains all available parsers.
+     * Contains all available parsers. Users have to register them using constructor.
+     * Key - state.
+     * Value - parser for current state
      */
     private final ExpressionParsersContainer<State> parsersContainer;
 
@@ -41,7 +45,16 @@ public abstract class AbstractCharacterExpressionResolver
         this.parsersContainer = new ExpressionParsersContainer<>(parsersMap);
     }
 
-    public void run(InputContext inputContext, OutputContext outputContext,
+    /**
+     * Running by using finite state machine algorithm.
+     *
+     * @param inputContext Contains input data
+     * @param outputContext Contains output data
+     * @param startState Start state
+     * @param finishState Finish state
+     * @throws ResolvingError
+     */
+    protected final void run(InputContext inputContext, OutputContext outputContext,
                     State startState, State finishState) throws ResolvingError {
 
         State currentState = startState;
@@ -64,6 +77,13 @@ public abstract class AbstractCharacterExpressionResolver
         }
     }
 
+    /**
+     * Accepts potential state if any stack commands parsed.
+     * @param potentialState State to be checked.
+     * @param inputContext Input context.
+     * @param outputContext Output context.
+     * @return true - if state accepted, false - if not.
+     */
     private boolean acceptNextState(State potentialState,
                                     InputContext inputContext,
                                     OutputContext outputContext) {
@@ -82,6 +102,11 @@ public abstract class AbstractCharacterExpressionResolver
         return false;
     }
 
+    /**
+     * Method that invoked when machine cannot reach finish state.
+     * @param inputContext Input context.
+     * @throws ResolvingError
+     */
     abstract public void deadlock(InputContext inputContext) throws ResolvingError;
 
 }
