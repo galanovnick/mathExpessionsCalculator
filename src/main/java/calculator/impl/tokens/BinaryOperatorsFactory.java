@@ -1,7 +1,16 @@
 package calculator.impl.tokens;
 
+
+/**
+ * Creates binary operators by string token.
+ */
 public class BinaryOperatorsFactory {
 
+    /**
+     * Returns created binary operator.
+     * @param token input string token
+     * @return binary operator
+     */
     public BinaryOperator createOperator(String token) {
         switch (token) {
             case "+": return new Plus();

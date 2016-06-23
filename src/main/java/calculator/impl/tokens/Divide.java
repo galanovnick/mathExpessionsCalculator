@@ -1,6 +1,8 @@
 package calculator.impl.tokens;
 
-import static calculator.impl.tokens.Priority.MEDIUM;
+import calculator.impl.tokens.priorityenum.Priority;
+
+import static calculator.impl.tokens.priorityenum.Priority.MEDIUM;
 
 public class Divide extends AbstractBinaryOperator {
 

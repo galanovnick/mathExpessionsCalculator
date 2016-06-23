@@ -1,6 +1,8 @@
 package calculator.impl.tokens;
 
-import static calculator.impl.tokens.Priority.LOW;
+import calculator.impl.tokens.priorityenum.Priority;
+
+import static calculator.impl.tokens.priorityenum.Priority.LOW;
 
 public class Minus extends AbstractBinaryOperator {
 

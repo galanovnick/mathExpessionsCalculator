@@ -42,12 +42,12 @@ public class MathExpressionsCalculatorImpl
     public void deadlock(InputContext inputContext) throws CalculationException {
         if (log.isWarnEnabled()) {
             log.warn("Input expression is invalid. Symbol at "
-                    + inputContext.getParsingPointer() + " position unresolved.");
+                    + (inputContext.getParsingPointer() + 1) + " position unresolved.");
         }
 
 
         throw new CalculationException("Cannot resolve symbol at "
-                + inputContext.getParsingPointer() + " position", inputContext.getParsingPointer());
+                + (inputContext.getParsingPointer() + 1) + " position", inputContext.getParsingPointer());
     }
 
     private static Map<State, EnumSet<State>> registerTransitions() {
