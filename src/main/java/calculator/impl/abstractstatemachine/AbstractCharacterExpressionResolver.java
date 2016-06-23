@@ -14,12 +14,12 @@ import java.util.Map;
 
 /**
  * Implementation of finite state machine for resolving character expressions.
+ *
  * @param <ResolvingError> exception that signal about syntax errors
  * @param <State>
  */
 public abstract class AbstractCharacterExpressionResolver
-        <ResolvingError extends Exception, State extends Enum<State>>
-        implements FiniteStateMachine {
+        <ResolvingError extends Exception, State extends Enum<State>> {
 
     private final static Logger log = LoggerFactory.getLogger(AbstractCharacterExpressionResolver.class);
 
@@ -41,15 +41,19 @@ public abstract class AbstractCharacterExpressionResolver
         this.parsersContainer = new ExpressionParsersContainer<>(parsersMap);
     }
 
+    public void run(InputContext inputContext, OutputContext outputContext,
+                    Enum startState, Enum finishState) throws ResolvingError {
 
-    public void run(InputContext inputContext, OutputContext outputContext) throws ResolvingError {
-        while (!inputContext.isInFinishState()) {
-            Iterator<State> iterator = transitionMatrix
-                    .get(inputContext.getCurrentState()).iterator();
+        Enum currentState = startState;
+        while (currentState != finishState) {
+
+            Iterator<State> iterator = transitionMatrix.get(currentState).iterator();
 
             while (iterator.hasNext()) {
+                State potentialState = iterator.next();
 
-                if(acceptNextState(iterator.next(), inputContext, outputContext)) {
+                if (acceptNextState(potentialState, inputContext, outputContext)) {
+                    currentState = potentialState;
                     break;
                 } else {
                     if (!iterator.hasNext()) {
@@ -65,12 +69,11 @@ public abstract class AbstractCharacterExpressionResolver
                                     OutputContext outputContext) {
 
         StackCommand stackCommand = parsersContainer.getParserByState(potentialState)
-                        .parseExpression(inputContext, outputContext);
+                .parseExpression(inputContext, outputContext);
 
         if (stackCommand != null) {
             stackCommand.execute();
 
-            inputContext.setCurrentState(potentialState);
             if (log.isDebugEnabled()) {
                 log.debug("Accepted \"" + potentialState.name() + "\" state.");
             }
@@ -80,4 +83,5 @@ public abstract class AbstractCharacterExpressionResolver
     }
 
     abstract public void deadlock(InputContext inputContext) throws ResolvingError;
+
 }

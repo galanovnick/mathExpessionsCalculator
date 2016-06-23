@@ -14,11 +14,7 @@ public class InputMathExpressionContext implements InputContext<State> {
     private int pointer = 0;
     private int transactionPointer = 0;
 
-    private State currentState;
-    private final State finishState;
-
-    public InputMathExpressionContext(String tokens, State startState, State finishState)
-            throws CalculationException {
+    public InputMathExpressionContext(String tokens) throws CalculationException {
 
         if (tokens == null || tokens.length() == 0) {
             log.error("Input expression is empty or null.");
@@ -27,8 +23,6 @@ public class InputMathExpressionContext implements InputContext<State> {
         if (log.isDebugEnabled()) {
             log.debug("Created math expression context from \"" + tokens + "\"");
         }
-        this.currentState = startState;
-        this.finishState = finishState;
         this.inputTokens = tokens.toCharArray();
     }
 
@@ -62,20 +56,5 @@ public class InputMathExpressionContext implements InputContext<State> {
     @Override
     public int getPointer() {
         return pointer;
-    }
-
-    @Override
-    public boolean isInFinishState() {
-        return currentState == finishState;
-    }
-
-    @Override
-    public State getCurrentState() {
-        return currentState;
-    }
-
-    @Override
-    public void setCurrentState(State state) {
-        this.currentState = state;
     }
 }

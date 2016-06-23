@@ -34,11 +34,11 @@ public class MathExpressionsCalculatorImpl
 
     public double evaluate(String mathExpression) throws CalculationException {
         InputMathExpressionContext inputContext =
-                new InputMathExpressionContext(mathExpression, START, FINISH);
+                new InputMathExpressionContext(mathExpression);
         OutputMathExpressionContext outputContext =
                 new OutputMathExpressionContext();
 
-        run(inputContext, outputContext);
+        run(inputContext, outputContext, START, FINISH);
 
         return outputContext.getResult();
     }
