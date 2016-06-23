@@ -32,7 +32,10 @@ public class FunctionParser implements ExpressionParser {
 
         while (pointer < tokens.length) {
             functionToken = tokens[pointer++];
-
+            if (functionToken == '(') {
+                functionTokens.append(functionToken);
+                break;
+            }
             if (!Character.isDigit(functionToken) &&
                     functionToken != '-' &&
                     functionToken != '.' &&

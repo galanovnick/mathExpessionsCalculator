@@ -19,9 +19,9 @@ public class InputMathExpressionContext implements InputContext {
             throw new CalculationException("Expression cannot be empty.", 0);
         }
         if (log.isDebugEnabled()) {
-            log.debug("Created math expression context from \"" + tokens + "\"");
+            log.debug("Created math expression context from \"" + tokens.replaceAll("\\s+","") + "\"");
         }
-        this.inputTokens = tokens.toCharArray();
+        this.inputTokens = tokens.replaceAll("\\s+","").toCharArray();
     }
 
     @Override
