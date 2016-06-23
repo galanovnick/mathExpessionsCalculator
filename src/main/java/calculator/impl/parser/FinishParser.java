@@ -10,13 +10,17 @@ import calculator.impl.stackcommands.StackCommand;
 public class FinishParser implements ExpressionParser {
 
     /**
-     * Do nothing. Returns empty function.
+     * Returns empty function.
      * @param inputContext
      * @param outputContext
      * @return empty function
      */
     @Override
     public StackCommand parseExpression(InputContext inputContext, OutputContext outputContext) {
+        if (inputContext.getParsingPointer() < inputContext.getTokens().length) {
+            return null;
+        }
+
         return () -> {};
     }
 }

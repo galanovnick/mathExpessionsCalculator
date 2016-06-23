@@ -18,26 +18,28 @@ public class NumberParser implements ExpressionParser {
      */
     @Override
     public StackCommand parseExpression(InputContext inputContext, OutputContext outputContext) {
+
+        char[] tokens = inputContext.getTokens();
+        int pointer = inputContext.getParsingPointer();
+
         char nextChar;
         StringBuilder number = new StringBuilder();
 
-        while (!inputContext.isParsed()) {
-            nextChar = inputContext.nextCharacter();
+        while (pointer < tokens.length) {
+            nextChar = tokens[pointer++];
             if (nextChar == '-' && number.length() == 0) {
                 number.append(nextChar);
             } else if (Character.isDigit(nextChar) || nextChar == '.') {
                 number.append(nextChar);
             } else {
-                inputContext.resetParsed();
-                return null;
+                break;
             }
         }
-        if (number.indexOf(".") != number.lastIndexOf(".")) {
-            inputContext.resetParsed();
+        if (number.length() == 0 || (number.indexOf(".") != number.lastIndexOf("."))) {
             return null;
         }
 
-        inputContext.commitParsed();
+        inputContext.moveParsingPointer(number.length());
 
         return () -> outputContext.pushOperand(Double.parseDouble(number.toString()));
     }
