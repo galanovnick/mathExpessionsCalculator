@@ -5,6 +5,7 @@ package calculator.impl.stateenum;
  */
 public enum State {
     START,
+    ARGUMENTS_SEPARATOR,
     NUMBER,
     BINARY_OPERATOR,
     FUNCTION,
