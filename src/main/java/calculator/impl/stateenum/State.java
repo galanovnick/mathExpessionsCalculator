@@ -6,5 +6,6 @@ package calculator.impl.stateenum;
 public enum State {
     START,
     NUMBER,
+    BINARY_OPERATOR,
     FINISH
 }

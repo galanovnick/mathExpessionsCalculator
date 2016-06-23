@@ -1,19 +1,14 @@
 package calculator.impl.context;
 
 /**
- * Represents current FSM state. Contains input data.
  *
- * @param <State>
+ *
  */
-public interface InputContext<State extends Enum<State>> {
+public interface InputContext {
 
-    char nextCharacter();
+    char[] getTokens();
 
-    boolean isParsed();
+    int getParsingPointer();
 
-    void commitParsed();
-
-    void resetParsed();
-
-    int getPointer();
+    void moveParsingPointer(int value);
 }

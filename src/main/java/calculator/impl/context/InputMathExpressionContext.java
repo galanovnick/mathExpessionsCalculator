@@ -1,18 +1,16 @@
 package calculator.impl.context;
 
 import calculator.exception.CalculationException;
-import calculator.impl.stateenum.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class InputMathExpressionContext implements InputContext<State> {
+public class InputMathExpressionContext implements InputContext {
 
     private final static Logger log = LoggerFactory.getLogger(InputMathExpressionContext.class);
 
     private final char[] inputTokens;
 
-    private int pointer = 0;
-    private int transactionPointer = 0;
+    private int parsingPointer = 0;
 
     public InputMathExpressionContext(String tokens) throws CalculationException {
 
@@ -27,34 +25,17 @@ public class InputMathExpressionContext implements InputContext<State> {
     }
 
     @Override
-    public char nextCharacter() {
-        if (pointer < inputTokens.length) {
-            return inputTokens[pointer++];
-        } else {
-            throw new IndexOutOfBoundsException("Parsing pointer is out of bound.");
-        }
+    public char[] getTokens() {
+        return inputTokens;
     }
 
     @Override
-    public boolean isParsed() {
-        if (log.isDebugEnabled() && !(pointer < inputTokens.length)) {
-            log.debug("Parsing done.");
-        }
-        return pointer >= inputTokens.length;
+    public int getParsingPointer() {
+        return parsingPointer;
     }
 
     @Override
-    public void commitParsed() {
-        transactionPointer = pointer;
-    }
-
-    @Override
-    public void resetParsed() {
-        pointer = transactionPointer;
-    }
-
-    @Override
-    public int getPointer() {
-        return pointer;
+    public void moveParsingPointer(int value) {
+        parsingPointer += value;
     }
 }

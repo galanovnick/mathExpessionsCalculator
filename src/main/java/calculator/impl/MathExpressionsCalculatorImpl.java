@@ -5,17 +5,12 @@ import calculator.exception.CalculationException;
 import calculator.impl.abstractstatemachine.AbstractCharacterExpressionResolver;
 import calculator.impl.context.InputContext;
 import calculator.impl.context.InputMathExpressionContext;
-import calculator.impl.context.OutputContext;
 import calculator.impl.context.OutputMathExpressionContext;
-import calculator.impl.parser.ExpressionParser;
-import calculator.impl.parser.ExpressionParsersContainer;
-import calculator.impl.parser.FinishParser;
-import calculator.impl.parser.NumberParser;
+import calculator.impl.parser.*;
 import calculator.impl.stateenum.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,19 +42,20 @@ public class MathExpressionsCalculatorImpl
     public void deadlock(InputContext inputContext) throws CalculationException {
         if (log.isWarnEnabled()) {
             log.warn("Input expression is invalid. Symbol at "
-                    + inputContext.getPointer() + " position unresolved.");
+                    + inputContext.getParsingPointer() + " position unresolved.");
         }
 
 
         throw new CalculationException("Cannot resolve symbol at "
-                + inputContext.getPointer() + "position", inputContext.getPointer());
+                + inputContext.getParsingPointer() + " position", inputContext.getParsingPointer());
     }
 
     private static Map<State, EnumSet<State>> registerTransitions() {
         return new HashMap<State, EnumSet<State>>() {{
 
             put(START, EnumSet.of(NUMBER));
-            put(NUMBER, EnumSet.of(FINISH));
+            put(NUMBER, EnumSet.of(BINARY_OPERATOR, FINISH));
+            put(BINARY_OPERATOR, EnumSet.of(NUMBER));
         }};
     }
 
@@ -67,6 +63,7 @@ public class MathExpressionsCalculatorImpl
         return new HashMap<State, ExpressionParser>() {{
 
             put(NUMBER, new NumberParser());
+            put(BINARY_OPERATOR, new BinaryOperatorParser());
             put(FINISH, new FinishParser());
         }};
     }

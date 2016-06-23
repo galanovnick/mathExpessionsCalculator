@@ -12,4 +12,6 @@ public interface BinaryOperator extends Comparable<BinaryOperator>{
      * @return calculated value
      */
     double execute(double leftOperand, double rightOperand);
+
+    Priority getPriority();
 }

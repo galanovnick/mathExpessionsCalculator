@@ -42,23 +42,23 @@ public abstract class AbstractCharacterExpressionResolver
     }
 
     public void run(InputContext inputContext, OutputContext outputContext,
-                    Enum startState, Enum finishState) throws ResolvingError {
+                    State startState, State finishState) throws ResolvingError {
 
-        Enum currentState = startState;
+        State currentState = startState;
         while (currentState != finishState) {
 
             Iterator<State> iterator = transitionMatrix.get(currentState).iterator();
 
             while (iterator.hasNext()) {
                 State potentialState = iterator.next();
-
+                if (log.isDebugEnabled()) {
+                    log.debug("Potential state: " + potentialState.name());
+                }
                 if (acceptNextState(potentialState, inputContext, outputContext)) {
                     currentState = potentialState;
                     break;
-                } else {
-                    if (!iterator.hasNext()) {
-                        deadlock(inputContext);
-                    }
+                } else if (!iterator.hasNext()) {
+                    deadlock(inputContext);
                 }
             }
         }
