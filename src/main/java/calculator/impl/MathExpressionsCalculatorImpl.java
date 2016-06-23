@@ -57,7 +57,7 @@ public class MathExpressionsCalculatorImpl
             put(NUMBER, EnumSet.of(BINARY_OPERATOR, CLOSE_BRACKET, FINISH));
             put(FUNCTION, EnumSet.of(NUMBER, FUNCTION));
             put(CLOSE_BRACKET, EnumSet.of(CLOSE_BRACKET, BINARY_OPERATOR, FINISH));
-            put(BINARY_OPERATOR, EnumSet.of(NUMBER));
+            put(BINARY_OPERATOR, EnumSet.of(NUMBER, FUNCTION));
         }};
     }
 

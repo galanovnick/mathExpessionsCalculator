@@ -29,24 +29,20 @@ public class FunctionParser implements ExpressionParser {
 
         StringBuilder functionTokens = new StringBuilder();
         char functionToken;
+
         while (pointer < tokens.length) {
-            if (functionTokens.length() == 0 && tokens[pointer] == ',') {
-                pointer++;
+            functionToken = tokens[pointer++];
+
+            if (!Character.isDigit(functionToken) &&
+                    functionToken != '-' &&
+                    functionToken != '.' &&
+                    functionToken != ')' &&
+                    !VALID_OPERATOR_SYMBOLS.contains(functionToken)) {
+
+                functionTokens.append(functionToken + "");
+
             } else {
-
-                functionToken = tokens[pointer++];
-
-                if (!Character.isDigit(functionToken) &&
-                        functionToken != '-' &&
-                        functionToken != '.' &&
-                        functionToken != ')' &&
-                        !VALID_OPERATOR_SYMBOLS.contains(functionToken)) {
-
-                    functionTokens.append(functionToken + "");
-
-                } else {
-                    break;
-                }
+                break;
             }
         }
 
@@ -54,7 +50,7 @@ public class FunctionParser implements ExpressionParser {
 
         if (function != null) {
             inputContext.moveParsingPointer(functionTokens.length());
-            outputContext.pushFunction(function);
+            return () -> outputContext.pushFunction(function);
         }
 
         return null;

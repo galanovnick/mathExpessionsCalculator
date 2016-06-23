@@ -27,17 +27,13 @@ public class NumberParser implements ExpressionParser {
         StringBuilder numberTokens = new StringBuilder();
 
         while (pointer < tokens.length) {
-            if (numberTokens.length() == 0 && tokens[pointer] == ',') {
-                pointer++;
+            nextChar = tokens[pointer++];
+            if (numberTokens.length() == 0 && nextChar == '-') {
+                numberTokens.append(nextChar);
+            } else if (Character.isDigit(nextChar) || nextChar == '.') {
+                numberTokens.append(nextChar);
             } else {
-                nextChar = tokens[pointer++];
-                if (numberTokens.length() == 0 && nextChar == '-') {
-                    numberTokens.append(nextChar);
-                } else if (Character.isDigit(nextChar) || nextChar == '.') {
-                    numberTokens.append(nextChar);
-                } else {
-                    break;
-                }
+                break;
             }
         }
         if (numberTokens.length() == 0 || (numberTokens.indexOf(".") != numberTokens.lastIndexOf("."))) {
