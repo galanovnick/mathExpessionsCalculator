@@ -53,8 +53,9 @@ public class MathExpressionsCalculatorImpl
     private static Map<State, EnumSet<State>> registerTransitions() {
         return new HashMap<State, EnumSet<State>>() {{
 
-            put(START, EnumSet.of(NUMBER));
+            put(START, EnumSet.of(NUMBER, FUNCTION));
             put(NUMBER, EnumSet.of(BINARY_OPERATOR, FINISH));
+            put(FUNCTION, EnumSet.of(NUMBER, FUNCTION));
             put(BINARY_OPERATOR, EnumSet.of(NUMBER));
         }};
     }
@@ -64,6 +65,7 @@ public class MathExpressionsCalculatorImpl
 
             put(NUMBER, new NumberParser());
             put(BINARY_OPERATOR, new BinaryOperatorParser());
+            put(FUNCTION, new FunctionParser());
             put(FINISH, new FinishParser());
         }};
     }

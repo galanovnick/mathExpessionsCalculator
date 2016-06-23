@@ -12,6 +12,7 @@ public class NumberParser implements ExpressionParser {
     /**
      * Returns function that pushing number into specified stack.
      * If no number parsed, returns null.
+     *
      * @param inputContext
      * @param outputContext
      * @return function or null
@@ -23,24 +24,28 @@ public class NumberParser implements ExpressionParser {
         int pointer = inputContext.getParsingPointer();
 
         char nextChar;
-        StringBuilder number = new StringBuilder();
+        StringBuilder numberTokens = new StringBuilder();
 
         while (pointer < tokens.length) {
-            nextChar = tokens[pointer++];
-            if (nextChar == '-' && number.length() == 0) {
-                number.append(nextChar);
-            } else if (Character.isDigit(nextChar) || nextChar == '.') {
-                number.append(nextChar);
+            if (numberTokens.length() == 0 && tokens[pointer] == ',') {
+                pointer++;
             } else {
-                break;
+                nextChar = tokens[pointer++];
+                if (numberTokens.length() == 0 && nextChar == '-') {
+                    numberTokens.append(nextChar);
+                } else if (Character.isDigit(nextChar) || nextChar == '.') {
+                    numberTokens.append(nextChar);
+                } else {
+                    break;
+                }
             }
         }
-        if (number.length() == 0 || (number.indexOf(".") != number.lastIndexOf("."))) {
+        if (numberTokens.length() == 0 || (numberTokens.indexOf(".") != numberTokens.lastIndexOf("."))) {
             return null;
         }
 
-        inputContext.moveParsingPointer(number.length());
+        inputContext.moveParsingPointer(numberTokens.length());
 
-        return () -> outputContext.pushOperand(Double.parseDouble(number.toString()));
+        return () -> outputContext.pushOperand(Double.parseDouble(numberTokens.toString()));
     }
 }

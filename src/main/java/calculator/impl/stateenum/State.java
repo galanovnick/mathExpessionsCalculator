@@ -7,5 +7,7 @@ public enum State {
     START,
     NUMBER,
     BINARY_OPERATOR,
+    FUNCTION,
+    CLOSE_BRACKET,
     FINISH
 }
