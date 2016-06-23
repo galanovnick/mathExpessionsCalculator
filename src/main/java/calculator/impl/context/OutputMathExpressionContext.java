@@ -1,6 +1,7 @@
 package calculator.impl.context;
 
-import calculator.exception.CalculationException;
+import calculator.impl.context.contextbean.MathExpressionBean;
+import calculator.impl.context.contextbean.OutputContextBean;
 import calculator.impl.tokens.BinaryOperator;
 import calculator.impl.tokens.Function;
 
@@ -26,20 +27,22 @@ public class OutputMathExpressionContext implements OutputContext<Double>{
 
     public Double getResult() {
         while (mathExpressionBean.getParent() != null) {
-            MathExpressionBean current = mathExpressionBean;
-            mathExpressionBean = mathExpressionBean.getParent();
-            mathExpressionBean.pushOperand(current.getResultValue());
+            popTopFunction();
         }
         return mathExpressionBean.getResultValue();
     }
 
     @Override
-    public void popTopFunction() throws CalculationException {
+    public void popTopFunction(){
         if (mathExpressionBean.getParent() != null) {
             MathExpressionBean current = mathExpressionBean;
             mathExpressionBean = mathExpressionBean.getParent();
             mathExpressionBean.pushOperand(current.getResultValue());
         }
-        throw new CalculationException("\"(\" expected", 0);
+    }
+
+    @Override
+    public OutputContextBean getContextBean() {
+        return mathExpressionBean;
     }
 }

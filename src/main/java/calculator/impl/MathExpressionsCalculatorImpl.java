@@ -54,8 +54,9 @@ public class MathExpressionsCalculatorImpl
         return new HashMap<State, EnumSet<State>>() {{
 
             put(START, EnumSet.of(NUMBER, FUNCTION));
-            put(NUMBER, EnumSet.of(BINARY_OPERATOR, FINISH));
+            put(NUMBER, EnumSet.of(BINARY_OPERATOR, CLOSE_BRACKET, FINISH));
             put(FUNCTION, EnumSet.of(NUMBER, FUNCTION));
+            put(CLOSE_BRACKET, EnumSet.of(CLOSE_BRACKET, BINARY_OPERATOR, FINISH));
             put(BINARY_OPERATOR, EnumSet.of(NUMBER));
         }};
     }
@@ -66,6 +67,7 @@ public class MathExpressionsCalculatorImpl
             put(NUMBER, new NumberParser());
             put(BINARY_OPERATOR, new BinaryOperatorParser());
             put(FUNCTION, new FunctionParser());
+            put(CLOSE_BRACKET, new CloseBracketParser());
             put(FINISH, new FinishParser());
         }};
     }

@@ -39,6 +39,7 @@ public class FunctionParser implements ExpressionParser {
                 if (!Character.isDigit(functionToken) &&
                         functionToken != '-' &&
                         functionToken != '.' &&
+                        functionToken != ')' &&
                         !VALID_OPERATOR_SYMBOLS.contains(functionToken)) {
 
                     functionTokens.append(functionToken + "");

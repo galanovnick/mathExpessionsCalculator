@@ -1,4 +1,4 @@
-package calculator.impl.context;
+package calculator.impl.context.contextbean;
 
 import calculator.impl.tokens.BinaryOperator;
 import calculator.impl.tokens.Function;
@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class MathExpressionBean {
+public class MathExpressionBean implements OutputContextBean<Double> {
 
     private static final Logger log = LoggerFactory.getLogger(MathExpressionBean.class);
 
@@ -53,7 +53,7 @@ public class MathExpressionBean {
         return function.execute(numbersStack.toArray(new Double[0]));
     }
 
-    public void pushOperand(double operator) {
+    public void pushOperand(Double operator) {
         numbersStack.push(operator);
     }
 
@@ -70,5 +70,10 @@ public class MathExpressionBean {
         double leftOperand = numbersStack.pop();
 
         numbersStack.add(operatorsStack.pop().execute(leftOperand, rightOperand));
+    }
+
+    @Override
+    public boolean isInFunction() {
+        return parent != null;
     }
 }

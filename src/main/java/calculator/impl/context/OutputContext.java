@@ -1,6 +1,6 @@
 package calculator.impl.context;
 
-import calculator.exception.CalculationException;
+import calculator.impl.context.contextbean.OutputContextBean;
 import calculator.impl.tokens.BinaryOperator;
 import calculator.impl.tokens.Function;
 
@@ -12,7 +12,11 @@ public interface OutputContext<Operand> {
 
     void pushFunction(Function function);
 
-    void popTopFunction() throws CalculationException;
+    void popTopFunction();
+
+    OutputContextBean getContextBean();
 
     Operand getResult();
+
+
 }
