@@ -19,6 +19,6 @@ public class FunctionsTest {
     @Test
     public void testMaximumFunction() throws CalculationException {
         assertEquals("Max function have been calculated incorrect.",
-                9, calculator.evaluate("min(9,7,8)"), 0.0001);
+                9, calculator.evaluate("max(9,7,8)"), 0.0001);
     }
 }

@@ -25,7 +25,7 @@ public class MathExpressionBean {
             log.debug("Created bean from empty function.");
         }
 
-        this.function = args -> numbersStack.pop();
+        this.function = args -> args[0];
     }
 
     public MathExpressionBean(Function function, MathExpressionBean parent) {

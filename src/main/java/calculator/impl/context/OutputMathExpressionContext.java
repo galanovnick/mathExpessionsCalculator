@@ -1,6 +1,7 @@
 package calculator.impl.context;
 
 import calculator.impl.tokens.BinaryOperator;
+import calculator.impl.tokens.Function;
 
 public class OutputMathExpressionContext implements OutputContext<Double, BinaryOperator>{
 
@@ -15,6 +16,11 @@ public class OutputMathExpressionContext implements OutputContext<Double, Binary
     @Override
     public void pushBinaryOperator(BinaryOperator operator) {
         mathExpressionBean.pushOperator(operator);
+    }
+
+    @Override
+    public void pushFunction(Function function) {
+        mathExpressionBean = new MathExpressionBean(function, mathExpressionBean);
     }
 
     public Double getResult() {
