@@ -1,5 +1,6 @@
 package calculator.impl.abstractstatemachine;
 
+import calculator.CalculationException;
 import calculator.impl.InputContext;
 import calculator.impl.OutputContext;
 import org.slf4j.Logger;
@@ -16,7 +17,7 @@ import java.util.Map;
  * @param <State> fsm state
  */
 public abstract class AbstractCharacterExpressionResolver
-        <ResolvingError extends Exception, State extends Enum<State>> {
+        <State extends Enum<State>> {
 
     private final static Logger log = LoggerFactory.getLogger(AbstractCharacterExpressionResolver.class);
 
@@ -42,7 +43,7 @@ public abstract class AbstractCharacterExpressionResolver
      * @throws ResolvingError
      */
     protected final void run(InputContext inputContext, OutputContext outputContext,
-                    State startState, State finishState) throws Exception {
+                    State startState, State finishState) throws CalculationException {
 
         State currentState = startState;
         while (currentState != finishState) {
@@ -64,7 +65,9 @@ public abstract class AbstractCharacterExpressionResolver
      */
     private State acceptNextState(State currentState,
                                     InputContext inputContext,
-                                    OutputContext outputContext) throws Exception {
+                                    OutputContext outputContext)
+            throws CalculationException {
+
         State nextState = null;
 
         for (State potentialState : transitionMatrix.get(currentState)) {
@@ -91,6 +94,6 @@ public abstract class AbstractCharacterExpressionResolver
      * Method that invoked when machine cannot reach finish state.
      * @throws ResolvingError
      */
-    abstract public void deadlock(int deadlockPosition) throws ResolvingError;
+    abstract public void deadlock(int deadlockPosition) throws CalculationException;
 
 }

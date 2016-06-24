@@ -17,7 +17,7 @@ import java.util.Map;
 import static calculator.impl.abstractstatemachine.State.*;
 
 public class MathExpressionsCalculatorImpl
-        extends AbstractCharacterExpressionResolver<CalculationException, State>
+        extends AbstractCharacterExpressionResolver<State>
         implements MathExpressionsCalculator {
 
     private final static Logger log = LoggerFactory.getLogger(MathExpressionsCalculator.class);
@@ -37,16 +37,7 @@ public class MathExpressionsCalculatorImpl
         OutputMathExpressionContext outputContext =
                 new OutputMathExpressionContext();
 
-        try {
-            run(inputContext, outputContext, START, FINISH);
-        } catch (Exception e) {
-            if (e instanceof CalculationException) {
-                throw (CalculationException) e;
-            } else {
-                throw new IllegalStateException(
-                        "Exception caused by: " + e.getMessage(), e);
-            }
-        }
+        run(inputContext, outputContext, START, FINISH);
 
         return outputContext.getResult();
     }

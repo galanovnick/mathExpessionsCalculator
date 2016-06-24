@@ -1,14 +1,15 @@
 package calculator.impl.abstractstatemachine;
 
+import calculator.CalculationException;
 import calculator.impl.OutputContext;
 
 /**
  * Representation of abstract atomic operation, which can be done with stack of operands/operators
  */
-public interface StackCommand<ResolvingError extends Exception> {
+public interface StackCommand {
 
     /**
      * Execute operation.
      */
-    void execute(OutputContext outputContext) throws ResolvingError;
+    void execute(OutputContext outputContext) throws CalculationException;
 }

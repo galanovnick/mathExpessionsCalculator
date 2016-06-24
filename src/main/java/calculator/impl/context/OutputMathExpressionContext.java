@@ -7,7 +7,7 @@ import calculator.impl.context.contextbean.OutputContextBean;
 import calculator.impl.operators.BinaryOperator;
 import calculator.impl.operators.Function;
 
-public class OutputMathExpressionContext implements OutputContext<Double, CalculationException> {
+public class OutputMathExpressionContext implements OutputContext<Double> {
 
     private MathExpressionBean mathExpressionBean
             = new MathExpressionBean();
