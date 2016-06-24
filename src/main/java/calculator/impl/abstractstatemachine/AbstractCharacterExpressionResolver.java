@@ -1,10 +1,7 @@
 package calculator.impl.abstractstatemachine;
 
-import calculator.impl.context.InputContext;
-import calculator.impl.context.OutputContext;
-import calculator.impl.parser.ExpressionParser;
-import calculator.impl.parser.ExpressionParsersContainer;
-import calculator.impl.stackcommands.StackCommand;
+import calculator.impl.InputContext;
+import calculator.impl.OutputContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,58 +42,55 @@ public abstract class AbstractCharacterExpressionResolver
      * @throws ResolvingError
      */
     protected final void run(InputContext inputContext, OutputContext outputContext,
-                    State startState, State finishState) throws ResolvingError {
+                    State startState, State finishState) throws Exception {
 
         State currentState = startState;
         while (currentState != finishState) {
 
-            Iterator<State> iterator = transitionMatrix.get(currentState).iterator();
+            currentState = acceptNextState(currentState, inputContext, outputContext);
 
-            while (iterator.hasNext()) {
-                State potentialState = iterator.next();
-                if (log.isDebugEnabled()) {
-                    log.debug("Potential state: " + potentialState.name());
-                }
-                if (acceptNextState(potentialState, inputContext, outputContext)) {
-                    currentState = potentialState;
-                    break;
-                } else if (!iterator.hasNext()) {
-                    deadlock(inputContext);
-                }
+            if (currentState == null) {
+                deadlock(inputContext.getParsingContent().getParsingPointer());
             }
         }
     }
 
     /**
      * Accepts potential state if any stack commands parsed.
-     * @param potentialState State to be checked.
+     * @param currentState State to be checked.
      * @param inputContext Input context.
      * @param outputContext Output context.
      * @return true - if state accepted, false - if not.
      */
-    private boolean acceptNextState(State potentialState,
+    private State acceptNextState(State currentState,
                                     InputContext inputContext,
-                                    OutputContext outputContext) {
+                                    OutputContext outputContext) throws Exception {
+        State nextState = null;
 
-        StackCommand stackCommand =
-                inputContext.grabActionByState(potentialState, outputContext);
+        for (State potentialState : transitionMatrix.get(currentState)) {
+            StackCommand stackCommand =
+                    inputContext.grabActionByState(potentialState);
 
-        if (stackCommand != null) {
-            stackCommand.execute();
+            if (stackCommand != null) {
+                stackCommand.execute(outputContext);
+                nextState = potentialState;
 
-            if (log.isDebugEnabled()) {
-                log.debug("Accepted \"" + potentialState.name() + "\" state.");
+                if (log.isDebugEnabled()) {
+                    log.debug("Accepted \"" + potentialState.name() + "\" state.");
+                }
+
+                break;
             }
-            return true;
+
         }
-        return false;
+
+        return nextState;
     }
 
     /**
      * Method that invoked when machine cannot reach finish state.
-     * @param inputContext Input context.
      * @throws ResolvingError
      */
-    abstract public void deadlock(InputContext inputContext) throws ResolvingError;
+    abstract public void deadlock(int deadlockPosition) throws ResolvingError;
 
 }

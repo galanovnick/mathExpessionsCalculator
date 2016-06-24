@@ -1,4 +1,4 @@
-package calculator.impl.stateenum;
+package calculator.impl.abstractstatemachine;
 
 /**
  * All reachable states for finite state machine, used as base for MathExpressionsCalculator.

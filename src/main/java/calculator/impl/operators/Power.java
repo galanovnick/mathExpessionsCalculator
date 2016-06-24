@@ -1,8 +1,6 @@
-package calculator.impl.tokens;
+package calculator.impl.operators;
 
-import calculator.impl.tokens.priorityenum.Priority;
-
-import static calculator.impl.tokens.priorityenum.Priority.HIGH;
+import static calculator.impl.operators.Priority.HIGH;
 
 public class Power extends AbstractBinaryOperator {
 

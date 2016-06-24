@@ -1,10 +1,12 @@
 package calculator.impl.context;
 
-import calculator.exception.CalculationException;
+import calculator.CalculationException;
+import calculator.impl.InputContext;
+import calculator.impl.ParsingContent;
 import calculator.impl.parser.ExpressionParser;
 import calculator.impl.parser.ExpressionParsersContainer;
-import calculator.impl.stackcommands.StackCommand;
-import calculator.impl.stateenum.State;
+import calculator.impl.abstractstatemachine.StackCommand;
+import calculator.impl.abstractstatemachine.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,10 +50,10 @@ public class InputMathExpressionContext implements InputContext<State> {
      * @return Stack command or null
      */
     @Override
-    public StackCommand grabActionByState(State state, OutputContext outputContext) {
+    public StackCommand grabActionByState(State state) {
         ExpressionParser parser =
                 parsersContainer.getParserByState(state);
-        StackCommand stackCommand = parser.parseExpression(this, outputContext);
+        StackCommand stackCommand = parser.parseExpression(this);
 
         if (stackCommand != null) {
             return stackCommand;

@@ -1,9 +1,8 @@
 package calculator.impl.parser;
 
-import calculator.impl.context.InputContext;
-import calculator.impl.context.OutputContext;
-import calculator.impl.context.ParsingContent;
-import calculator.impl.stackcommands.StackCommand;
+import calculator.impl.InputContext;
+import calculator.impl.ParsingContent;
+import calculator.impl.abstractstatemachine.StackCommand;
 
 /**
  * Implements parsing for "arguments_separator" state.
@@ -16,7 +15,7 @@ public class ArgumentsSeparatorParser implements ExpressionParser {
      * @return empty function or null
      */
     @Override
-    public StackCommand parseExpression(InputContext inputContext, OutputContext outputContext) {
+    public StackCommand parseExpression(InputContext inputContext) {
 
         ParsingContent content = inputContext.getParsingContent();
 
@@ -30,6 +29,6 @@ public class ArgumentsSeparatorParser implements ExpressionParser {
         }
 
         content.moveParsingPointer(1);
-        return () -> {};
+        return (outputContext) -> {};
     }
 }

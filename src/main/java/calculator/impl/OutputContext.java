@@ -1,10 +1,10 @@
-package calculator.impl.context;
+package calculator.impl;
 
 import calculator.impl.context.contextbean.OutputContextBean;
-import calculator.impl.tokens.BinaryOperator;
-import calculator.impl.tokens.Function;
+import calculator.impl.operators.BinaryOperator;
+import calculator.impl.operators.Function;
 
-public interface OutputContext<Operand> {
+public interface OutputContext<Operand, ResolvingError extends Exception> {
 
     void pushOperand(Operand operator);
 
@@ -12,7 +12,7 @@ public interface OutputContext<Operand> {
 
     void pushFunction(Function function);
 
-    void popTopFunction();
+    void popTopFunction() throws ResolvingError;
 
     OutputContextBean getContextBean();
 

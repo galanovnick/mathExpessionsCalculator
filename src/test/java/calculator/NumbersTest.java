@@ -1,6 +1,5 @@
 package calculator;
 
-import calculator.exception.CalculationException;
 import calculator.impl.MathExpressionsCalculatorImpl;
 import org.junit.Test;
 

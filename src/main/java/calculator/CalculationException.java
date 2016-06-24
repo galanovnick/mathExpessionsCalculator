@@ -1,4 +1,4 @@
-package calculator.exception;
+package calculator;
 
 /**
  * Signals that input string contains unresolved symbol.

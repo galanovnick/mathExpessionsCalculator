@@ -1,11 +1,13 @@
 package calculator.impl.context;
 
+import calculator.CalculationException;
+import calculator.impl.OutputContext;
 import calculator.impl.context.contextbean.MathExpressionBean;
 import calculator.impl.context.contextbean.OutputContextBean;
-import calculator.impl.tokens.BinaryOperator;
-import calculator.impl.tokens.Function;
+import calculator.impl.operators.BinaryOperator;
+import calculator.impl.operators.Function;
 
-public class OutputMathExpressionContext implements OutputContext<Double>{
+public class OutputMathExpressionContext implements OutputContext<Double, CalculationException> {
 
     private MathExpressionBean mathExpressionBean
             = new MathExpressionBean();
@@ -30,11 +32,13 @@ public class OutputMathExpressionContext implements OutputContext<Double>{
     }
 
     @Override
-    public void popTopFunction(){
+    public void popTopFunction() throws CalculationException {
         if (mathExpressionBean.getParent() != null) {
             MathExpressionBean current = mathExpressionBean;
             mathExpressionBean = mathExpressionBean.getParent();
             mathExpressionBean.pushOperand(current.getResultValue());
+        } else {
+            throw new CalculationException("\"(\" expected.", 0);
         }
     }
 

@@ -1,8 +1,7 @@
 package calculator.impl.parser;
 
-import calculator.impl.context.InputContext;
-import calculator.impl.context.OutputContext;
-import calculator.impl.stackcommands.StackCommand;
+import calculator.impl.InputContext;
+import calculator.impl.abstractstatemachine.StackCommand;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
  */
 public interface ExpressionParser {
 
-    StackCommand parseExpression(InputContext inputContext, OutputContext outputContext);
+    StackCommand parseExpression(InputContext inputContext);
 
     /**
      * List of valid operators symbols.

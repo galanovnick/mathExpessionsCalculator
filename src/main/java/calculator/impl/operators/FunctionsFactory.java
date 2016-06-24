@@ -1,4 +1,4 @@
-package calculator.impl.tokens;
+package calculator.impl.operators;
 
 
 /**
@@ -13,7 +13,12 @@ public class FunctionsFactory {
      */
     public Function createFunction(String token) {
         switch (token) {
-            case "(": return args -> args[0];
+            case "(": return new Function<Double>() {
+                @Override
+                public Double execute(Double[] args) {
+                    return args[0];
+                }
+            };
             case "min(": return new Function<Double>() {
                 @Override
                 public Double execute(Double[] args) {

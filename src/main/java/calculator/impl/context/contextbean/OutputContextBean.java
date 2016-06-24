@@ -1,6 +1,6 @@
 package calculator.impl.context.contextbean;
 
-import calculator.impl.tokens.BinaryOperator;
+import calculator.impl.operators.BinaryOperator;
 
 /**
  * Abstract container for output context data.

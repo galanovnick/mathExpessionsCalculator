@@ -1,13 +1,12 @@
 package calculator.impl;
 
 import calculator.MathExpressionsCalculator;
-import calculator.exception.CalculationException;
+import calculator.CalculationException;
 import calculator.impl.abstractstatemachine.AbstractCharacterExpressionResolver;
-import calculator.impl.context.InputContext;
 import calculator.impl.context.InputMathExpressionContext;
 import calculator.impl.context.OutputMathExpressionContext;
 import calculator.impl.parser.*;
-import calculator.impl.stateenum.State;
+import calculator.impl.abstractstatemachine.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +14,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
-import static calculator.impl.stateenum.State.*;
+import static calculator.impl.abstractstatemachine.State.*;
 
 public class MathExpressionsCalculatorImpl
         extends AbstractCharacterExpressionResolver<CalculationException, State>
@@ -38,22 +37,31 @@ public class MathExpressionsCalculatorImpl
         OutputMathExpressionContext outputContext =
                 new OutputMathExpressionContext();
 
-        run(inputContext, outputContext, START, FINISH);
+        try {
+            run(inputContext, outputContext, START, FINISH);
+        } catch (Exception e) {
+            if (e instanceof CalculationException) {
+                throw (CalculationException) e;
+            } else {
+                throw new IllegalStateException(
+                        "Exception caused by: " + e.getMessage(), e);
+            }
+        }
 
         return outputContext.getResult();
     }
 
     @Override
-    public void deadlock(InputContext inputContext) throws CalculationException {
+    public void deadlock(int deadlockPosition) throws CalculationException {
         if (log.isWarnEnabled()) {
             log.warn("Input expression is invalid. Symbol at "
-                    + (inputContext.getParsingContent().getParsingPointer() + 1) + " position unresolved.");
+                    + (deadlockPosition + 1) + " position unresolved.");
         }
 
 
         throw new CalculationException("Cannot resolve symbol at "
-                + (inputContext.getParsingContent().getParsingPointer() + 1) + " position",
-                inputContext.getParsingContent().getParsingPointer());
+                + (deadlockPosition + 1) + " position",
+                deadlockPosition + 1);
     }
 
     private static Map<State, EnumSet<State>> registerTransitions() {

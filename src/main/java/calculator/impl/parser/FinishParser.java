@@ -1,9 +1,10 @@
 package calculator.impl.parser;
 
-import calculator.impl.context.InputContext;
-import calculator.impl.context.OutputContext;
-import calculator.impl.context.ParsingContent;
-import calculator.impl.stackcommands.StackCommand;
+import calculator.CalculationException;
+import calculator.impl.InputContext;
+import calculator.impl.ParsingContent;
+import calculator.impl.abstractstatemachine.StackCommand;
+import calculator.impl.context.contextbean.OutputContextBean;
 
 /**
  * Implements parsing for "finish" state.
@@ -16,10 +17,7 @@ public class FinishParser implements ExpressionParser {
      * @return empty function
      */
     @Override
-    public StackCommand parseExpression(InputContext inputContext, OutputContext outputContext) {
-        if (outputContext.getContextBean().isInFunction()) {
-            return null;
-        }
+    public StackCommand parseExpression(InputContext inputContext) {
 
         ParsingContent content = inputContext.getParsingContent();
 
@@ -27,6 +25,12 @@ public class FinishParser implements ExpressionParser {
             return null;
         }
 
-        return () -> {};
+        return (outputContext) -> {
+            OutputContextBean outputContextBean
+                    = outputContext.getContextBean();
+            if (outputContextBean.getParent() != null) {
+                throw new CalculationException("\")\" expected.", content.getTokens().length);
+            }
+        };
     }
 }

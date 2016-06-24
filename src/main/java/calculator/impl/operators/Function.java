@@ -1,4 +1,4 @@
-package calculator.impl.tokens;
+package calculator.impl.operators;
 
 /**
  * Abstract function representation.

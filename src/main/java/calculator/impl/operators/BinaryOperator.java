@@ -1,6 +1,4 @@
-package calculator.impl.tokens;
-
-import calculator.impl.tokens.priorityenum.Priority;
+package calculator.impl.operators;
 
 /**
  * Abstract binary operator representation.

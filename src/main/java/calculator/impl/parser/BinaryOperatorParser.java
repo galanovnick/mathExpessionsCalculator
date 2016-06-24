@@ -1,11 +1,10 @@
 package calculator.impl.parser;
 
-import calculator.impl.context.InputContext;
-import calculator.impl.context.OutputContext;
-import calculator.impl.context.ParsingContent;
-import calculator.impl.stackcommands.StackCommand;
-import calculator.impl.tokens.BinaryOperator;
-import calculator.impl.tokens.BinaryOperatorsFactory;
+import calculator.impl.InputContext;
+import calculator.impl.ParsingContent;
+import calculator.impl.abstractstatemachine.StackCommand;
+import calculator.impl.operators.BinaryOperator;
+import calculator.impl.operators.BinaryOperatorsFactory;
 
 /**
  * Implements parsing for "binary_operator" state.
@@ -22,7 +21,7 @@ public class BinaryOperatorParser implements ExpressionParser {
      * @return function or null
      */
     @Override
-    public StackCommand parseExpression(InputContext inputContext, OutputContext outputContext) {
+    public StackCommand parseExpression(InputContext inputContext) {
 
         ParsingContent content = inputContext.getParsingContent();
 
@@ -47,7 +46,7 @@ public class BinaryOperatorParser implements ExpressionParser {
 
         if (binaryOperator != null) {
             content.moveParsingPointer(1);
-            return () -> outputContext.pushBinaryOperator(binaryOperator);
+            return (outputContext) -> outputContext.pushBinaryOperator(binaryOperator);
         }
 
         return null;

@@ -1,9 +1,9 @@
 package calculator.impl.parser;
 
-import calculator.impl.context.InputContext;
-import calculator.impl.context.OutputContext;
-import calculator.impl.context.ParsingContent;
-import calculator.impl.stackcommands.StackCommand;
+import calculator.impl.InputContext;
+import calculator.impl.OutputContext;
+import calculator.impl.ParsingContent;
+import calculator.impl.abstractstatemachine.StackCommand;
 
 /**
  * Implements parsing for "close_bracket" state.
@@ -11,10 +11,7 @@ import calculator.impl.stackcommands.StackCommand;
 public class CloseBracketParser implements ExpressionParser {
 
     @Override
-    public StackCommand parseExpression(InputContext inputContext, OutputContext outputContext) {
-        if (!outputContext.getContextBean().isInFunction()) {
-            return null;
-        }
+    public StackCommand parseExpression(InputContext inputContext) {
 
         ParsingContent content = inputContext.getParsingContent();
 
@@ -28,6 +25,6 @@ public class CloseBracketParser implements ExpressionParser {
         }
 
         content.moveParsingPointer(1);
-        return outputContext::popTopFunction;
+        return OutputContext::popTopFunction;
     }
 }

@@ -1,4 +1,4 @@
-package calculator.impl.tokens.priorityenum;
+package calculator.impl.operators;
 
 /**
  * All available priorities for binary operators.

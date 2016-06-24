@@ -1,7 +1,7 @@
 package calculator.impl.context.contextbean;
 
-import calculator.impl.tokens.BinaryOperator;
-import calculator.impl.tokens.Function;
+import calculator.impl.operators.BinaryOperator;
+import calculator.impl.operators.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

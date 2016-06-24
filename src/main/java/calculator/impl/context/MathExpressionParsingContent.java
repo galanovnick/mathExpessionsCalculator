@@ -1,6 +1,8 @@
 package calculator.impl.context;
 
 
+import calculator.impl.ParsingContent;
+
 /**
  * Contains math expression parsing content
  */

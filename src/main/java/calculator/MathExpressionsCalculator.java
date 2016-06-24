@@ -1,7 +1,5 @@
 package calculator;
 
-import calculator.exception.CalculationException;
-
 /**
  * Public API of mathematical expressions calculator.
  */
