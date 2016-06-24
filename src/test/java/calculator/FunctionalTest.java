@@ -10,7 +10,7 @@ public class FunctionalTest {
     MathExpressionsCalculator calculator = new MathExpressionsCalculatorImpl();
 
     @Test
-    public void testFunctionality() throws CalculationException {
+    public void testSanity() throws CalculationException {
         String mathExpression = "((3 + 2) * (max(min(2^0.5, 2^(5+6), 2^7*8), 6, 3) - 4) + 2) * 4";
 
 
