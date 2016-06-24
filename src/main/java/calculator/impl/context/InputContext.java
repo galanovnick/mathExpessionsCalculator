@@ -1,13 +1,13 @@
 package calculator.impl.context;
 
+import calculator.impl.stackcommands.StackCommand;
+
 /**
  *  Container for input data.
  */
-public interface InputContext {
+public interface InputContext<State extends Enum<State>> {
 
-    char[] getTokens();
+    StackCommand grabActionByState(State state, OutputContext outputContext);
 
-    int getParsingPointer();
-
-    void moveParsingPointer(int value);
+    ParsingContent getParsingContent();
 }

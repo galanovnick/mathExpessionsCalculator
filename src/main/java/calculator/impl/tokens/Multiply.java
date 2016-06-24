@@ -9,7 +9,7 @@ public class Multiply extends AbstractBinaryOperator {
     private final Priority priority = MEDIUM;
 
     @Override
-    public double execute(double leftOperand, double rightOperand) {
+    public Double execute(Double leftOperand, Double rightOperand) {
         return leftOperand * rightOperand;
     }
 

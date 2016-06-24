@@ -9,7 +9,7 @@ public class Power extends AbstractBinaryOperator {
     private final Priority priority = HIGH;
 
     @Override
-    public double execute(double leftOperand, double rightOperand) {
+    public Double execute(Double leftOperand, Double rightOperand) {
         return Math.pow(leftOperand, rightOperand);
     }
 

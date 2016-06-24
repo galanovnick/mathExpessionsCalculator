@@ -5,7 +5,7 @@ import calculator.impl.tokens.priorityenum.Priority;
 /**
  * Abstract binary operator representation.
  */
-public interface BinaryOperator extends Comparable<BinaryOperator>{
+public interface BinaryOperator<Operand> extends Comparable<BinaryOperator>{
 
     /**
      * Returns calculated value.
@@ -13,7 +13,10 @@ public interface BinaryOperator extends Comparable<BinaryOperator>{
      * @param rightOperand - expression right operand
      * @return calculated value
      */
-    double execute(double leftOperand, double rightOperand);
+    Operand execute(Operand leftOperand, Operand rightOperand);
 
     Priority getPriority();
+
+    @Override
+    int compareTo(BinaryOperator o);
 }

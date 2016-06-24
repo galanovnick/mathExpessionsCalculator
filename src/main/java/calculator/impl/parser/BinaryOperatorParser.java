@@ -2,6 +2,7 @@ package calculator.impl.parser;
 
 import calculator.impl.context.InputContext;
 import calculator.impl.context.OutputContext;
+import calculator.impl.context.ParsingContent;
 import calculator.impl.stackcommands.StackCommand;
 import calculator.impl.tokens.BinaryOperator;
 import calculator.impl.tokens.BinaryOperatorsFactory;
@@ -18,13 +19,15 @@ public class BinaryOperatorParser implements ExpressionParser {
      * Returns function that pushing binary operator into specified stack.
      * If no operator parsed, returns null.
      * @param inputContext
-     * @param outputContext
      * @return function or null
      */
     @Override
     public StackCommand parseExpression(InputContext inputContext, OutputContext outputContext) {
-        char[] tokens = inputContext.getTokens();
-        int pointer = inputContext.getParsingPointer();
+
+        ParsingContent content = inputContext.getParsingContent();
+
+        char[] tokens = content.getTokens();
+        int pointer = content.getParsingPointer();
 
         StringBuilder operator = new StringBuilder();
         char operatorToken;
@@ -43,7 +46,7 @@ public class BinaryOperatorParser implements ExpressionParser {
                 binaryOperatorsFactory.createOperator(operator.toString());
 
         if (binaryOperator != null) {
-            inputContext.moveParsingPointer(1);
+            content.moveParsingPointer(1);
             return () -> outputContext.pushBinaryOperator(binaryOperator);
         }
 

@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.jar.Pack200;
 
 /**
  * Contains output context data.
@@ -24,13 +23,13 @@ public class MathExpressionBean implements OutputContextBean<Double> {
     /**
      * Operators stack.
      */
-    private Deque<BinaryOperator> operatorsStack = new ArrayDeque<>();
+    private Deque<BinaryOperator<Double>> operatorsStack = new ArrayDeque<>();
 
     /**
      * For brackets - empty function.
      * Considered, that expression always wrapped in additional brackets.
      */
-    private Function function;
+    private Function<Double> function;
 
     /**
      * Link to parent bean. Null if no functions or brackets parsed.
@@ -75,7 +74,7 @@ public class MathExpressionBean implements OutputContextBean<Double> {
             popTopOperator();
         }
 
-        return function.execute(numbersStack.toArray(new Double[0]));
+        return (function.execute(numbersStack.toArray(new Double[0])));
     }
 
     /**

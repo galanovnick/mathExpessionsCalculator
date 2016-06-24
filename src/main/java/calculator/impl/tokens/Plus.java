@@ -9,7 +9,7 @@ public class Plus extends AbstractBinaryOperator {
     private final Priority priority = LOW;
 
     @Override
-    public double execute(double leftOperand, double rightOperand) {
+    public Double execute(Double leftOperand, Double rightOperand) {
         return leftOperand + rightOperand;
     }
 

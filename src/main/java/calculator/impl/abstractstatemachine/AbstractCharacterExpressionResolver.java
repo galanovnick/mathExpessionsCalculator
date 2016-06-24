@@ -30,19 +30,9 @@ public abstract class AbstractCharacterExpressionResolver
      */
     private Map<State, EnumSet<State>> transitionMatrix;
 
-    /**
-     * Contains all available parsers. Users have to register them using constructor.
-     * Key - state.
-     * Value - parser for current state
-     */
-    private final ExpressionParsersContainer<State> parsersContainer;
-
-    protected AbstractCharacterExpressionResolver(Map<State, EnumSet<State>> transitionMatrix,
-                                                  Map<State, ExpressionParser> parsersMap) {
+    protected AbstractCharacterExpressionResolver(Map<State, EnumSet<State>> transitionMatrix) {
 
         this.transitionMatrix = transitionMatrix;
-
-        this.parsersContainer = new ExpressionParsersContainer<>(parsersMap);
     }
 
     /**
@@ -88,8 +78,8 @@ public abstract class AbstractCharacterExpressionResolver
                                     InputContext inputContext,
                                     OutputContext outputContext) {
 
-        StackCommand stackCommand = parsersContainer.getParserByState(potentialState)
-                .parseExpression(inputContext, outputContext);
+        StackCommand stackCommand =
+                inputContext.grabActionByState(potentialState, outputContext);
 
         if (stackCommand != null) {
             stackCommand.execute();

@@ -23,13 +23,18 @@ public class MathExpressionsCalculatorImpl
 
     private final static Logger log = LoggerFactory.getLogger(MathExpressionsCalculator.class);
 
+    private final ExpressionParsersContainer<State> registeredParsers
+            = new ExpressionParsersContainer<>(registerParsers());
+
     public MathExpressionsCalculatorImpl() {
-        super(registerTransitions(), registerParsers());
+        super(registerTransitions());
     }
 
     public double evaluate(String mathExpression) throws CalculationException {
+
         InputMathExpressionContext inputContext =
-                new InputMathExpressionContext(mathExpression);
+                new InputMathExpressionContext(mathExpression, registeredParsers);
+
         OutputMathExpressionContext outputContext =
                 new OutputMathExpressionContext();
 
@@ -42,12 +47,13 @@ public class MathExpressionsCalculatorImpl
     public void deadlock(InputContext inputContext) throws CalculationException {
         if (log.isWarnEnabled()) {
             log.warn("Input expression is invalid. Symbol at "
-                    + (inputContext.getParsingPointer() + 1) + " position unresolved.");
+                    + (inputContext.getParsingContent().getParsingPointer() + 1) + " position unresolved.");
         }
 
 
         throw new CalculationException("Cannot resolve symbol at "
-                + (inputContext.getParsingPointer() + 1) + " position", inputContext.getParsingPointer());
+                + (inputContext.getParsingContent().getParsingPointer() + 1) + " position",
+                inputContext.getParsingContent().getParsingPointer());
     }
 
     private static Map<State, EnumSet<State>> registerTransitions() {

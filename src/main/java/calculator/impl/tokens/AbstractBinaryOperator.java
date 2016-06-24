@@ -1,10 +1,9 @@
 package calculator.impl.tokens;
 
-
 /**
  * Implements binary operators comparison.
  */
-public abstract class AbstractBinaryOperator implements BinaryOperator {
+public abstract class AbstractBinaryOperator implements BinaryOperator<Double> {
 
     @Override
     public int compareTo(BinaryOperator o) {

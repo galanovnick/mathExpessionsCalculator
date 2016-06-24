@@ -3,12 +3,12 @@ package calculator.impl.tokens;
 /**
  * Abstract function representation.
  */
-public interface Function {
+public interface Function<Operand> {
 
     /**
      * Returns calculated value.
      * @param args function arguments
      * @return calculated value
      */
-    double execute(Double[] args);
+    Operand execute(Operand[] args);
 }

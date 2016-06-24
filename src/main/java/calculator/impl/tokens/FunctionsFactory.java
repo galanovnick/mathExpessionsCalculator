@@ -14,22 +14,28 @@ public class FunctionsFactory {
     public Function createFunction(String token) {
         switch (token) {
             case "(": return args -> args[0];
-            case "min(": return args -> {
+            case "min(": return new Function<Double>() {
+                @Override
+                public Double execute(Double[] args) {
 
-                double result = args[0];
-                for (double next : args) {
-                    result = (next < result) ? next : result;
+                    double result = args[0];
+                    for (double next : args) {
+                        result = (next < result) ? next : result;
+                    }
+                    return result;
                 }
-                return result;
             };
 
-            case "max(": return args -> {
+            case "max(": return new Function<Double>() {
+                @Override
+                public Double execute(Double[] args) {
 
-                double result = args[0];
-                for (double next : args) {
-                    result = (next > result) ? next : result;
+                    double result = args[0];
+                    for (double next : args) {
+                        result = (next > result) ? next : result;
+                    }
+                    return result;
                 }
-                return result;
             };
 
             default: return null;

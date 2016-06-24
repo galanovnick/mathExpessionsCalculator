@@ -2,6 +2,7 @@ package calculator.impl.parser;
 
 import calculator.impl.context.InputContext;
 import calculator.impl.context.OutputContext;
+import calculator.impl.context.ParsingContent;
 import calculator.impl.stackcommands.StackCommand;
 
 /**
@@ -14,14 +15,15 @@ public class NumberParser implements ExpressionParser {
      * If no number parsed, returns null.
      *
      * @param inputContext
-     * @param outputContext
      * @return function or null
      */
     @Override
     public StackCommand parseExpression(InputContext inputContext, OutputContext outputContext) {
 
-        char[] tokens = inputContext.getTokens();
-        int pointer = inputContext.getParsingPointer();
+        ParsingContent content = inputContext.getParsingContent();
+
+        char[] tokens = content.getTokens();
+        int pointer = content.getParsingPointer();
 
         char nextChar;
         StringBuilder numberTokens = new StringBuilder();
@@ -40,8 +42,9 @@ public class NumberParser implements ExpressionParser {
             return null;
         }
 
-        inputContext.moveParsingPointer(numberTokens.length());
+        content.moveParsingPointer(numberTokens.length());
 
-        return () -> outputContext.pushOperand(Double.parseDouble(numberTokens.toString()));
+        return () -> outputContext.pushOperand(
+                Double.parseDouble(numberTokens.toString()));
     }
 }
