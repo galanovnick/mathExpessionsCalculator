@@ -2,7 +2,7 @@ package calculator.impl.operators;
 
 import static calculator.impl.operators.Priority.LOW;
 
-public class Minus extends AbstractBinaryOperator {
+public class Minus extends AbstractBinaryOperator<Double> {
 
     private final Priority priority = LOW;
 

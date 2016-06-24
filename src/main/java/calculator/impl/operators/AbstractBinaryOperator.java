@@ -3,7 +3,8 @@ package calculator.impl.operators;
 /**
  * Implements binary operators comparison.
  */
-public abstract class AbstractBinaryOperator implements BinaryOperator<Double> {
+public abstract class AbstractBinaryOperator<NumberType extends Number>
+        implements BinaryOperator<NumberType> {
 
     @Override
     public int compareTo(BinaryOperator o) {

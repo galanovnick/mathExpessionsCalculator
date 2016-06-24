@@ -16,7 +16,7 @@ public interface OutputContext<Operand, ResolvingError extends Exception> {
 
     OutputContextBean getContextBean();
 
-    Operand getResult();
+    Operand getResult() throws ResolvingError;
 
 
 }

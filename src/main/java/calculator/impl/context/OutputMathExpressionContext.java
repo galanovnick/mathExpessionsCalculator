@@ -27,7 +27,7 @@ public class OutputMathExpressionContext implements OutputContext<Double, Calcul
         mathExpressionBean = new MathExpressionBean(function, mathExpressionBean);
     }
 
-    public Double getResult() {
+    public Double getResult() throws CalculationException{
         return mathExpressionBean.getResultValue();
     }
 

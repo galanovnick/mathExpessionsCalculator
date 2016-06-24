@@ -3,12 +3,14 @@ package calculator.impl.operators;
 /**
  * Abstract function representation.
  */
-public interface Function<Operand> {
+public interface Function<NumberType> {
+
+    int getMinArgsNumber();
 
     /**
      * Returns calculated value.
      * @param args function arguments
      * @return calculated value
      */
-    Operand execute(Operand[] args);
+    NumberType execute(NumberType[] args);
 }

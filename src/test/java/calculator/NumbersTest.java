@@ -11,10 +11,17 @@ public class NumbersTest {
             = new MathExpressionsCalculatorImpl();
 
     @Test
-    public void testNumber() throws CalculationException {
+    public void testPositiveNumber() throws CalculationException {
 
-        assertEquals("Positive number has been calculated incorrect.", 2, calculator.evaluate("2"), 0.0001);
-        assertEquals("Negative number has been calculated incorrect.", -2, calculator.evaluate("-2"), 0.0001);
+        assertEquals("Positive number has been calculated incorrect.", 2,
+                calculator.evaluate("2"), 0.0001);
+    }
+
+    @Test
+    public void testNegativeNumber() throws CalculationException {
+
+        assertEquals("Positive number has been calculated incorrect.", -2,
+                calculator.evaluate("-2"), 0.0001);
     }
 
     @Test

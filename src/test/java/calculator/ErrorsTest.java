@@ -14,16 +14,7 @@ public class ErrorsTest {
 
     @Test(expected = CalculationException.class)
     public void testEmptyString() throws CalculationException {
+        calculator.evaluate("");
         calculator.evaluate(null);
-    }
-
-    @Test(expected = CalculationException.class)
-    public void testOpenBracketError() throws CalculationException {
-        calculator.evaluate("(1+3");
-    }
-
-    @Test(expected = CalculationException.class)
-    public void testCloseBracketError() throws CalculationException {
-        calculator.evaluate("1+3)");
     }
 }

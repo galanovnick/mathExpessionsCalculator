@@ -3,7 +3,7 @@ package calculator.impl.operators;
 /**
  * Abstract binary operator representation.
  */
-public interface BinaryOperator<Operand> extends Comparable<BinaryOperator>{
+public interface BinaryOperator<NumberType extends Number> extends Comparable<BinaryOperator>{
 
     /**
      * Returns calculated value.
@@ -11,7 +11,7 @@ public interface BinaryOperator<Operand> extends Comparable<BinaryOperator>{
      * @param rightOperand - expression right operand
      * @return calculated value
      */
-    Operand execute(Operand leftOperand, Operand rightOperand);
+    NumberType execute(NumberType leftOperand, NumberType rightOperand);
 
     Priority getPriority();
 

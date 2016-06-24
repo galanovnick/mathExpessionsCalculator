@@ -1,5 +1,6 @@
 package calculator.impl.context.contextbean;
 
+import calculator.CalculationException;
 import calculator.impl.operators.BinaryOperator;
 import calculator.impl.operators.Function;
 import org.slf4j.Logger;
@@ -44,7 +45,17 @@ public class MathExpressionBean implements OutputContextBean<Double> {
             log.debug("Created bean from empty function.");
         }
 
-        this.function = args -> args[0];
+        this.function = new Function<Double>() {
+            @Override
+            public int getMinArgsNumber() {
+                return 1;
+            }
+
+            @Override
+            public Double execute(Double[] args) {
+                return args[0];
+            }
+        };
     }
 
     public MathExpressionBean(Function function, MathExpressionBean parent) {
@@ -60,8 +71,7 @@ public class MathExpressionBean implements OutputContextBean<Double> {
         return parent;
     }
 
-    public double getResultValue() {
-
+    public double getResultValue() throws CalculationException {
         if (log.isDebugEnabled()) {
             if (parent != null) {
                 log.debug("Popping function result...");
@@ -72,6 +82,10 @@ public class MathExpressionBean implements OutputContextBean<Double> {
 
         while (!operatorsStack.isEmpty()) {
             popTopOperator();
+        }
+
+        if (function.getMinArgsNumber() > numbersStack.size()) {
+            throw new CalculationException("Function cannot be resolved.", 0);
         }
 
         return (function.execute(numbersStack.toArray(new Double[0])));

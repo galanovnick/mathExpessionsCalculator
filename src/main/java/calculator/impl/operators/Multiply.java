@@ -2,7 +2,7 @@ package calculator.impl.operators;
 
 import static calculator.impl.operators.Priority.MEDIUM;
 
-public class Multiply extends AbstractBinaryOperator {
+public class Multiply extends AbstractBinaryOperator<Double> {
 
     private final Priority priority = MEDIUM;
 
