@@ -6,6 +6,8 @@ import calculator.impl.abstractstatemachine.StackCommand;
 import calculator.impl.operators.BinaryOperator;
 import calculator.impl.operators.BinaryOperatorsFactory;
 
+import java.util.Optional;
+
 /**
  * Implements parsing for "binary_operator" state.
  */
@@ -21,7 +23,7 @@ public class BinaryOperatorParser implements ExpressionParser {
      * @return function or null
      */
     @Override
-    public StackCommand parseExpression(InputContext inputContext) {
+    public Optional<StackCommand> parseExpression(InputContext inputContext) {
 
         ParsingContent content = inputContext.getParsingContent();
 
@@ -46,9 +48,9 @@ public class BinaryOperatorParser implements ExpressionParser {
 
         if (binaryOperator != null) {
             content.moveParsingPointer(1);
-            return (outputContext) -> outputContext.pushBinaryOperator(binaryOperator);
+            return Optional.of((outputContext) -> outputContext.pushBinaryOperator(binaryOperator));
         }
 
-        return null;
+        return Optional.empty();
     }
 }

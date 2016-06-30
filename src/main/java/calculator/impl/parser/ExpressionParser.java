@@ -5,13 +5,14 @@ import calculator.impl.abstractstatemachine.StackCommand;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Abstract expression parser. Contains parsing method.
  */
 public interface ExpressionParser {
 
-    StackCommand parseExpression(InputContext inputContext);
+    Optional<StackCommand> parseExpression(InputContext inputContext);
 
     /**
      * List of valid operators symbols.

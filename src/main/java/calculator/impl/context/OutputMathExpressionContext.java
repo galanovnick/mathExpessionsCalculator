@@ -7,9 +7,11 @@ import calculator.impl.context.contextbean.OutputContextBean;
 import calculator.impl.operators.BinaryOperator;
 import calculator.impl.operators.Function;
 
+import java.util.Optional;
+
 public class OutputMathExpressionContext implements OutputContext<Double> {
 
-    private MathExpressionBean mathExpressionBean
+    private OutputContextBean<Double> mathExpressionBean
             = new MathExpressionBean();
 
     @Override
@@ -33,9 +35,10 @@ public class OutputMathExpressionContext implements OutputContext<Double> {
 
     @Override
     public void popTopFunction() throws CalculationException {
-        if (mathExpressionBean.getParent() != null) {
-            MathExpressionBean current = mathExpressionBean;
-            mathExpressionBean = mathExpressionBean.getParent();
+        Optional<OutputContextBean> parent = mathExpressionBean.getParent();
+        if (parent.isPresent()) {
+            OutputContextBean<Double> current = mathExpressionBean;
+            mathExpressionBean = parent.get();
             mathExpressionBean.pushOperand(current.getResultValue());
         } else {
             throw new CalculationException("\"(\" expected.", 0);

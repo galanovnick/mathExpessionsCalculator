@@ -4,6 +4,8 @@ import calculator.impl.InputContext;
 import calculator.impl.ParsingContent;
 import calculator.impl.abstractstatemachine.StackCommand;
 
+import java.util.Optional;
+
 /**
  * Implements parsing for "number" state.
  */
@@ -17,7 +19,7 @@ public class NumberParser implements ExpressionParser {
      * @return function or null
      */
     @Override
-    public StackCommand parseExpression(InputContext inputContext) {
+    public Optional<StackCommand> parseExpression(InputContext inputContext) {
 
         ParsingContent content = inputContext.getParsingContent();
 
@@ -38,12 +40,12 @@ public class NumberParser implements ExpressionParser {
             }
         }
         if (numberTokens.length() == 0 || (numberTokens.indexOf(".") != numberTokens.lastIndexOf("."))) {
-            return null;
+            return Optional.empty();
         }
 
         content.moveParsingPointer(numberTokens.length());
 
-        return (outputContext) -> outputContext.pushOperand(
-                Double.parseDouble(numberTokens.toString()));
+        return Optional.of((outputContext) -> outputContext.pushOperand(
+                Double.parseDouble(numberTokens.toString())));
     }
 }

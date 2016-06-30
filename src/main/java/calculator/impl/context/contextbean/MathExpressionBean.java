@@ -8,6 +8,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Optional;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * Contains output context data.
@@ -35,7 +38,7 @@ public class MathExpressionBean implements OutputContextBean<Double> {
     /**
      * Link to parent bean. Null if no functions or brackets parsed.
      */
-    private MathExpressionBean parent;
+    private Optional<OutputContextBean> parent = Optional.empty();
 
     /**
      * Constructor for first bean.
@@ -58,25 +61,29 @@ public class MathExpressionBean implements OutputContextBean<Double> {
         };
     }
 
-    public MathExpressionBean(Function function, MathExpressionBean parent) {
+    public MathExpressionBean(Function function, OutputContextBean<Double> parent) {
         if (log.isDebugEnabled()) {
             log.debug("Created bean from \"" + function.getClass().getName() + "\" function.");
         }
 
-        this.parent = parent;
+        checkArgument(function != null, "Expected not null function.");
+        checkArgument(parent != null, "Expected not null parent.");
+
+        this.parent = Optional.of(parent);
         this.function = function;
     }
 
-    public MathExpressionBean getParent() {
+    public Optional<OutputContextBean> getParent() {
         return parent;
     }
 
-    public double getResultValue() throws CalculationException {
+    @Override
+    public Double getResultValue() throws CalculationException {
         if (log.isDebugEnabled()) {
-            if (parent != null) {
-                log.debug("Popping function result...");
-            } else {
+            if (parent.isPresent()) {
                 log.debug("Popping calculation result...");
+            } else {
+                log.debug("Popping function result...");
             }
         }
 
@@ -93,17 +100,23 @@ public class MathExpressionBean implements OutputContextBean<Double> {
 
     /**
      * Add operand to stack.
+     *
      * @param operand Operand to be pushed to this bean.
      */
     public void pushOperand(Double operand) {
+        checkArgument(operand != null, "Expected not null operand.");
+
         numbersStack.push(operand);
     }
 
     /**
      * Add operator to stack. Calculates operators with higher priority.
+     *
      * @param operator Operator to be pushed to this bean.
      */
     public void pushOperator(BinaryOperator operator) {
+        checkArgument(operator != null, "Expected not null operator.");
+
         while (!operatorsStack.isEmpty() &&
                 (operatorsStack.peek().compareTo(operator) > 0)) {
             popTopOperator();
@@ -119,10 +132,5 @@ public class MathExpressionBean implements OutputContextBean<Double> {
         double leftOperand = numbersStack.pop();
 
         numbersStack.add(operatorsStack.pop().execute(leftOperand, rightOperand));
-    }
-
-    @Override
-    public boolean isInFunction() {
-        return parent != null;
     }
 }

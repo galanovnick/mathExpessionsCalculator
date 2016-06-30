@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static calculator.impl.abstractstatemachine.State.*;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class MathExpressionsCalculatorImpl
         extends AbstractCharacterExpressionResolver<State>
@@ -30,6 +32,9 @@ public class MathExpressionsCalculatorImpl
     }
 
     public double evaluate(String mathExpression) throws CalculationException {
+
+        checkNotNull(mathExpression, "Expected not null math expression");
+        checkArgument(mathExpression.length() != 0, "Expected not empty math expression");
 
         InputMathExpressionContext inputContext =
                 new InputMathExpressionContext(mathExpression, registeredParsers);

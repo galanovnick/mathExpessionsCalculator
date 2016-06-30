@@ -5,13 +5,15 @@ import calculator.impl.OutputContext;
 import calculator.impl.ParsingContent;
 import calculator.impl.abstractstatemachine.StackCommand;
 
+import java.util.Optional;
+
 /**
  * Implements parsing for "close_bracket" state.
  */
 public class CloseBracketParser implements ExpressionParser {
 
     @Override
-    public StackCommand parseExpression(InputContext inputContext) {
+    public Optional<StackCommand> parseExpression(InputContext inputContext) {
 
         ParsingContent content = inputContext.getParsingContent();
 
@@ -19,12 +21,12 @@ public class CloseBracketParser implements ExpressionParser {
         int pointer = content.getParsingPointer();
 
         if (pointer >= tokens.length) {
-            return null;
+            return Optional.empty();
         } else if (tokens[pointer] != ')') {
-            return null;
+            return Optional.empty();
         }
 
         content.moveParsingPointer(1);
-        return OutputContext::popTopFunction;
+        return Optional.of(OutputContext::popTopFunction);
     }
 }

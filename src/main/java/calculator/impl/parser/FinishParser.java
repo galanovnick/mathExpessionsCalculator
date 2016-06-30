@@ -6,6 +6,8 @@ import calculator.impl.ParsingContent;
 import calculator.impl.abstractstatemachine.StackCommand;
 import calculator.impl.context.contextbean.OutputContextBean;
 
+import java.util.Optional;
+
 /**
  * Implements parsing for "finish" state.
  */
@@ -17,20 +19,20 @@ public class FinishParser implements ExpressionParser {
      * @return empty function
      */
     @Override
-    public StackCommand parseExpression(InputContext inputContext) {
+    public Optional<StackCommand> parseExpression(InputContext inputContext) {
 
         ParsingContent content = inputContext.getParsingContent();
 
         if (content.getParsingPointer() < content.getTokens().length) {
-            return null;
+            return Optional.empty();
         }
 
-        return (outputContext) -> {
+        return Optional.of((outputContext) -> {
             OutputContextBean outputContextBean
                     = outputContext.getContextBean();
-            if (outputContextBean.getParent() != null) {
+            if (outputContextBean.getParent().isPresent()) {
                 throw new CalculationException("\")\" expected.", content.getTokens().length);
             }
-        };
+        });
     }
 }

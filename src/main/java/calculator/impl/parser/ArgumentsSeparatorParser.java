@@ -4,6 +4,8 @@ import calculator.impl.InputContext;
 import calculator.impl.ParsingContent;
 import calculator.impl.abstractstatemachine.StackCommand;
 
+import java.util.Optional;
+
 /**
  * Implements parsing for "arguments_separator" state.
  */
@@ -15,7 +17,7 @@ public class ArgumentsSeparatorParser implements ExpressionParser {
      * @return empty function or null
      */
     @Override
-    public StackCommand parseExpression(InputContext inputContext) {
+    public Optional<StackCommand> parseExpression(InputContext inputContext) {
 
         ParsingContent content = inputContext.getParsingContent();
 
@@ -23,12 +25,12 @@ public class ArgumentsSeparatorParser implements ExpressionParser {
         int pointer = content.getParsingPointer();
 
         if (pointer >= tokens.length) {
-            return null;
+            return Optional.empty();
         } else if (tokens[pointer] != ',') {
-            return null;
+            return Optional.empty();
         }
 
         content.moveParsingPointer(1);
-        return (outputContext) -> {};
+        return Optional.of((outputContext) -> {});
     }
 }

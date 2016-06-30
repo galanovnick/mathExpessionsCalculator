@@ -1,6 +1,9 @@
 package calculator.impl.context.contextbean;
 
+import calculator.CalculationException;
 import calculator.impl.operators.BinaryOperator;
+
+import java.util.Optional;
 
 /**
  * Abstract container for output context data.
@@ -11,7 +14,7 @@ public interface OutputContextBean<Operand> {
     /**
      * @return Parent bean
      */
-    OutputContextBean getParent();
+    Optional<OutputContextBean> getParent();
 
     /**
      * Add operand.
@@ -25,5 +28,5 @@ public interface OutputContextBean<Operand> {
      */
     void pushOperator(BinaryOperator operator);
 
-    boolean isInFunction();
+    Operand getResultValue() throws CalculationException;
 }

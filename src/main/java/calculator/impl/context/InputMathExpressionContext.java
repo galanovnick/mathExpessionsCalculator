@@ -10,6 +10,10 @@ import calculator.impl.abstractstatemachine.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Optional;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Contains input data.
  */
@@ -31,6 +35,8 @@ public class InputMathExpressionContext implements InputContext<State> {
                                       ExpressionParsersContainer parsersContainer)
             throws CalculationException {
 
+        checkNotNull(parsersContainer, "Expected not null parsers container");
+
         if (tokens == null || tokens.length() == 0) {
             log.error("Input expression is empty or null.");
             throw new CalculationException("Expression cannot be empty.", 0);
@@ -50,16 +56,12 @@ public class InputMathExpressionContext implements InputContext<State> {
      * @return Stack command or null
      */
     @Override
-    public StackCommand grabActionByState(State state) {
+    public Optional<StackCommand> grabActionByState(State state) {
         ExpressionParser parser =
                 parsersContainer.getParserByState(state);
-        StackCommand stackCommand = parser.parseExpression(this);
+        Optional<StackCommand> stackCommand = parser.parseExpression(this);
 
-        if (stackCommand != null) {
-            return stackCommand;
-        }
-
-        return null;
+        return stackCommand;
     }
 
     @Override

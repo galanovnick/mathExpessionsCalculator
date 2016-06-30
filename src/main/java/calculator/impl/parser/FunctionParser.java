@@ -6,6 +6,8 @@ import calculator.impl.abstractstatemachine.StackCommand;
 import calculator.impl.operators.Function;
 import calculator.impl.operators.FunctionsFactory;
 
+import java.util.Optional;
+
 /**
  * Implements parsing for "function" state.
  */
@@ -20,7 +22,7 @@ public class FunctionParser implements ExpressionParser {
      * @return generated function
      */
     @Override
-    public StackCommand parseExpression(InputContext inputContext) {
+    public Optional<StackCommand> parseExpression(InputContext inputContext) {
 
         ParsingContent content = inputContext.getParsingContent();
 
@@ -53,9 +55,9 @@ public class FunctionParser implements ExpressionParser {
 
         if (function != null) {
             content.moveParsingPointer(functionTokens.length());
-            return (outputContext) -> outputContext.pushFunction(function);
+            return Optional.of((outputContext) -> outputContext.pushFunction(function));
         }
 
-        return null;
+        return Optional.empty();
     }
 }
